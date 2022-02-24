@@ -1,0 +1,16 @@
+{
+  "name": "Serverless Job",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "settings": {},
+  "extensions": [
+    "ms-azuretools.vscode-docker",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint"
+  ],
+  // "forwardPorts": [3000, 5432],
+  "postCreateCommand": "npm i",
+  "remoteUser": "node",
+  "features": {}
+}

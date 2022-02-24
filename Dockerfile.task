@@ -1,0 +1,24 @@
+# ============================================================= #
+#  Task Dockerfile
+#
+#  This Dockerfile is for the task ECS container, which is
+#  triggered by the trigger Lambda to run an asynchronous job.
+# ============================================================= #
+
+# Build image.
+FROM node:14 as build
+# Set the working directory.
+WORKDIR /build
+# Copy the repository contents.
+COPY . .
+# Bundle the task code into one single javascript file.
+RUN npx esbuild --bundle --minify --outfile=dist/task/index.js --platform=node --tree-shaking=true bin/task.ts
+
+# Runtime image.
+FROM --platform=amd64 node:14-alpine3.15
+# Set the working directory.
+WORKDIR /app
+# Copy the distributable javascript code from the build step.
+COPY --from=build /build/dist/task/index.js .
+# Run the task.
+CMD [ "node", "index.js" ]
